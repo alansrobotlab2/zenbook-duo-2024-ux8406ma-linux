@@ -7,7 +7,12 @@ function mutter-feature-enabled {
 }
 
 # 3k model
-prefered_resolution="2880x1800@120.000"
+if mutter-feature-enabled variable-refresh-rate ; then
+  prefered_resolution="2880x1800@120.000+vrr"
+else
+  prefered_resolution="2880x1800@120.000"
+fi
+
 ui_scale=1.7475727796554565 # 1.75
 if mutter-feature-enabled scale-monitor-framebuffer ; then
   ui_scale=1.7475727796554565 # 1.75
