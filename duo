@@ -30,6 +30,10 @@ function get-orientation {
   gdbus call --system --dest net.hadess.SensorProxy --object-path /net/hadess/SensorProxy --method org.freedesktop.DBus.Properties.Get net.hadess.SensorProxy AccelerometerOrientation | sed "s/.*<'\([^']*\)'>.*/\1/"
 }
 
+function keyboard-is-attached {
+  lsusb|grep 0b05:1b2c
+}
+
 case "$1" in
   watch-displays)
     "$0" "$(get-orientation)"
@@ -46,7 +50,7 @@ case "$1" in
     fi
     ;;
   normal|bottom-up)
-    if lsusb|grep 0b05:1b2c ; then
+    if keyboard-is-attached; then
       "$0" top
     else
       "$0" both
