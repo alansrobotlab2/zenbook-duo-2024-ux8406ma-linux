@@ -3,7 +3,6 @@
 URL="github.com/p-e-w/argos"
 DIR=$(dirname "$0")
 
-# $HOME/p/my-scripts/duo set-displays > /dev/null 2>/dev/null
 $HOME/p/my-scripts/duo status
 echo "---"
 echo "top    | terminal=false bash='duo top'"

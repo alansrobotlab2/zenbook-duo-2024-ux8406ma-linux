@@ -44,7 +44,6 @@ case "$1" in
     done
     ;;
   set-displays)
-    sleep 1
     if ! external-display-connected; then 
       "$0" normal
     fi
