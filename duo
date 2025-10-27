@@ -26,12 +26,16 @@ function active-external-displays {
   gnome-monitor-config list|grep -vE 'eDP-[12]'|sed -nE 's/Monitor \[ (.+) \] ON/\1/p'
 }
 
+function get-orientation {
+  gdbus call --system --dest net.hadess.SensorProxy --object-path /net/hadess/SensorProxy --method org.freedesktop.DBus.Properties.Get net.hadess.SensorProxy AccelerometerOrientation | sed "s/.*<'\([^']*\)'>.*/\1/"
+}
+
 case "$1" in
   watch-displays)
+    "$0" "$(get-orientation)"
     while inotifywait -e attrib /dev/bus/usb/*/ ; do
       if ! external-display-connected; then
-        orientation=$(gdbus call --system --dest net.hadess.SensorProxy --object-path /net/hadess/SensorProxy --method org.freedesktop.DBus.Properties.Get net.hadess.SensorProxy AccelerometerOrientation | sed "s/.*<'\([^']*\)'>.*/\1/")
-        "$0" $orientation
+        "$0" "$(get-orientation)"
       fi
     done
     ;;
