@@ -4,8 +4,58 @@ Features:
 * brightness sync (any)
 * battery limiter (any)
 * touch/pen panels mapping (GNOME-specific, requires GNOME 46 or a backported Mutter patch)
-* automatic bottom screen on/off (GNOME-specific)
-* automatic rotation (GNOME-specific)
+* automatic bottom screen on/off (GNOME, Hyprland)
+* automatic rotation (GNOME, Hyprland)
+
+## Hyprland
+
+The `duo-hypr` script provides automatic display management for Hyprland.
+
+### Dependencies
+
+```bash
+sudo pacman -S jq inotify-tools iio-sensor-proxy usbutils
+```
+
+### Configuration
+
+Edit the configuration variables at the top of `duo-hypr` to match your hardware:
+
+```bash
+preferred_resolution="1920x1200@60"  # or "2880x1800@120" for 3K model
+ui_scale=1                            # 1.5 for 3K model
+vrr=1                                 # 0 to disable VRR
+```
+
+### Usage
+
+Add to your `~/.config/hypr/hyprland.conf`:
+
+```ini
+exec-once = /path/to/duo-hypr watch-displays
+exec-once = /path/to/duo-hypr watch-rotation
+exec-once = /path/to/duo-hypr watch-backlight
+```
+
+This will automatically:
+- Switch to top screen only when keyboard is attached
+- Switch to both screens when keyboard is detached
+- Rotate both screens when the device is rotated
+- Sync brightness between displays
+
+### Manual Commands
+
+| Command | Description |
+|---------|-------------|
+| `duo-hypr top` | Show only top screen (eDP-1) |
+| `duo-hypr bottom` | Show only bottom screen (eDP-2) |
+| `duo-hypr both` | Show both screens stacked |
+| `duo-hypr toggle` | Toggle between top-only and both |
+| `duo-hypr status` | Show current display configuration |
+
+---
+
+## GNOME
 
 ## panel mapping
 
