@@ -173,6 +173,15 @@ case "$1" in
     suenv python3 bk.py "$2"
     ;;
 
+  set-tablet-mapping)
+    # Map touchscreens to their respective displays
+    hyprctl keyword "device[elan9008:00-04f3:425b]:output" "eDP-1"
+    hyprctl keyword "device[elan9009:00-04f3:425a]:output" "eDP-2"
+    # Map stylus/tablet inputs to their respective displays
+    hyprctl keyword "device[elan9008:00-04f3:425b-stylus]:output" "eDP-1"
+    hyprctl keyword "device[elan9009:00-04f3:425a-stylus]:output" "eDP-2"
+    ;;
+
   *)
     echo "Usage: duo-hypr <command>"
     echo ""
@@ -201,5 +210,6 @@ case "$1" in
     echo "  watch-backlight  Continuously sync brightness"
     echo "  bat-limit [N]    Set battery charge limit (default 80%)"
     echo "  set-kb-backlight <0-3>  Set keyboard backlight level"
+    echo "  set-tablet-mapping      Map touchscreens/stylus to correct displays"
     ;;
 esac
